@@ -9,7 +9,7 @@ from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import HTMLResponse, JSONResponse
 from starlette.staticfiles import StaticFiles
 
-export_file_url = 'https://drive.google.com/uc?export=download&id=1u6HhfXFXZQ68tAuXIcEhF3swKqyUAaTz'
+export_file_url = 'https://www.dropbox.com/s/6bgq8t6yextloqp/export.pkl?raw=1'
 export_file_name = 'export.pkl'
 
 classes = ['black', 'grizzly', 'teddys']
@@ -60,8 +60,7 @@ async def analyze(request):
     img_data = await request.form()
     img_bytes = await (img_data['file'].read())
     img = open_image(BytesIO(img_bytes))
-    _, _, pred = learn.predict(test[50])
-    prediction = ' '.join([learn.data.classes[i] for i,p in enumerate(pred) if p > thresh])
+    prediction = learn.predict(img)[0]
     return JSONResponse({'result': str(prediction)})
 
 
